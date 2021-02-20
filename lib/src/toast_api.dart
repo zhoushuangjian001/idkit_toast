@@ -83,4 +83,51 @@ class IDKitToast {
     ToastView()
         .toastAutoDismiss(context, child, style: _style, duration: _duration);
   }
+
+  /// Rich activityIndicator or activityIndicator of Loading toast
+  static loading(
+    BuildContext context, {
+    String markId,
+    String content,
+    ToastStyle style =
+        const ToastStyle(padding: EdgeInsets.all(30), bgColor: Colors.grey),
+    double space = 10,
+  }) {
+    var _style = ToastStyle.mappingStyle(style);
+    var _child1 = CupertinoActivityIndicator(
+      radius: 20,
+    );
+    var _child;
+    if (content != null && content.isNotEmpty) {
+      _child = Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _child1,
+          SizedBox(
+            height: space,
+          ),
+          Text(
+            content,
+            style: _style.textStyle,
+          ),
+        ],
+      );
+    } else {
+      _child = _child1;
+    }
+    ToastView()
+        .toastLoading(context, _child, style: _style, markId: markId ?? "");
+  }
+
+  /// Custom loading of toast
+  static loadingCustom(BuildContext context, Widget child,
+      {ToastStyle style, String markId}) {
+    var _style = ToastStyle.mappingStyle(style);
+    ToastView()
+        .toastLoading(context, child, style: _style, markId: markId ?? "");
+  }
+
+  /// Delete toast
+  /// [markId]: Identification of toast
+  static dismiss({String markId}) => ToastView().dismiss(markId: markId);
 }

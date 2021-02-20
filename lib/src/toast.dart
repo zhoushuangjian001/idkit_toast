@@ -5,8 +5,9 @@ import 'package:idkit_toast/idkit_toast.dart';
 
 class ToastView {
   /// Record the number of displays
-  static List<String> _marks;
+  static List<dynamic> _marks;
   Timer _timer;
+  double _isloading;
   OverlayEntry _overlayEntry;
   static ToastView _instance;
   factory ToastView() => _getInstance();
@@ -21,8 +22,8 @@ class ToastView {
     _marks = [];
   }
 
-  /// There is only one text of toast
-  void toastAutoDismiss(BuildContext context, Widget widget,
+  /// Auto disappear of toast
+  void toastAutoDismiss(BuildContext context, Widget child,
       {ToastStyle style, Duration duration}) {
     immediatelyDismiss();
     var _isShow = 1.0;
@@ -43,7 +44,7 @@ class ToastView {
                       shape: style.shape,
                       margin: style.margin,
                       color: style.bgColor,
-                      child: widget,
+                      child: child,
                     ),
                   ),
                 ),
@@ -54,22 +55,77 @@ class ToastView {
       },
     );
     Overlay.of(context).insert(_overlayEntry);
+    _marks.add(true);
     _timer = Timer(duration, () async {
       _isShow = 0.0;
       _overlayEntry.markNeedsBuild();
-      await Future.delayed(Duration(milliseconds: 300));
-      immediatelyDismiss();
+      await Future.delayed(Duration(milliseconds: 300), () {
+        immediatelyDismiss();
+      });
     });
   }
 
+  void toastLoading(BuildContext context, Widget child,
+      {String markId, ToastStyle style}) {
+    _timer?.cancel();
+    _timer = null;
+    if (!_marks.contains(markId)) {
+      _marks = [];
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+      // build
+      _isloading = 1.0;
+      _overlayEntry = OverlayEntry(builder: (context) {
+        return Material(
+          color: style.maskColor,
+          child: SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: mappingAxisAlignment(style.alignment),
+              children: [
+                Flexible(
+                  child: AnimatedOpacity(
+                    duration: Duration(milliseconds: 300),
+                    opacity: _isloading,
+                    child: Card(
+                      shape: style.shape,
+                      margin: style.margin,
+                      color: style.bgColor,
+                      child: Padding(
+                        padding: style.padding,
+                        child: child,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      });
+      Overlay.of(context).insert(_overlayEntry);
+    } else {
+      child = null;
+    }
+    _marks.add(markId);
+  }
+
   /// Remove toast
-  void dismiss() {
-    if (_marks != null && _marks.length != 0) {
-      _marks.removeLast();
+  void dismiss({String markId}) async {
+    if (_marks.isNotEmpty) {
+      if (markId != null && _marks.contains(markId)) {
+        _marks.remove(markId);
+      } else {
+        _marks.removeLast();
+      }
       // Is it empty of marks
       if (_marks.isEmpty) {
-        _overlayEntry?.remove();
-        _overlayEntry = null;
+        _isloading = 0.0;
+        _overlayEntry.markNeedsBuild();
+        await Future.delayed(Duration(milliseconds: 300), () {
+          _overlayEntry?.remove();
+          _overlayEntry = null;
+        });
       }
     }
   }

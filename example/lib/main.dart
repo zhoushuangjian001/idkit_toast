@@ -53,17 +53,30 @@ class HomePage extends StatelessWidget {
             //   imageSize: Size(100, 100),
             // );
 
-            IDKitToast.showCustom(
-                context,
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Icon(Icons.ac_unit), Text("我市自定义显示")],
-                  ),
-                ),
-                style: ToastStyle(
-                  alignment: ToastAlignment.bottom,
-                ));
+            // IDKitToast.showCustom(
+            //     context,
+            //     Container(
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [Icon(Icons.ac_unit), Text("我市自定义显示")],
+            //       ),
+            //     ),
+            //     style: ToastStyle(
+            //       alignment: ToastAlignment.bottom,
+            //     ));
+
+            // IDKitToast.loading(context,
+            //     style: ToastStyle(
+            //       bgColor: Colors.red,
+            //       maskColor: Colors.green,
+            //     ));
+
+            // Future.delayed(Duration(seconds: 5), () {
+            //   IDKitToast.dismiss();
+            // });
+
+            IDKitToast.loadingCustom(
+                context, Image(image: AssetImage("load.gif")));
           },
         ),
       ),
