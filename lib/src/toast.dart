@@ -121,7 +121,7 @@ class ToastView {
       // Is it empty of marks
       if (_marks.isEmpty) {
         _isloading = 0.0;
-        _overlayEntry.markNeedsBuild();
+        _overlayEntry?.markNeedsBuild();
         await Future.delayed(Duration(milliseconds: 300), () {
           _overlayEntry?.remove();
           _overlayEntry = null;
