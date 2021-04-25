@@ -14,10 +14,7 @@ class IDKitToast {
     var _widget = SingleChildScrollView(
       child: Padding(
         padding: _style.padding,
-        child: Text(
-          content,
-          style: _style.textStyle,
-        ),
+        child: Text(content, style: _style.textStyle),
       ),
     );
     ToastView()
@@ -57,14 +54,11 @@ class IDKitToast {
             Text(
               content,
               style: _style.textStyle,
-            ),
+            )
           ];
     var _widget = Padding(
       padding: _style.padding,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: _children,
-      ),
+      child: Column(mainAxisSize: MainAxisSize.min, children: _children),
     );
     ToastView()
         .toastAutoDismiss(context, _widget, style: _style, duration: _duration);
@@ -94,9 +88,7 @@ class IDKitToast {
     double space = 10,
   }) {
     var _style = ToastStyle.mappingStyle(style);
-    var _child1 = CupertinoActivityIndicator(
-      radius: 20,
-    );
+    var _child1 = CupertinoActivityIndicator(radius: 20);
     var _child;
     if (content != null && content.isNotEmpty) {
       _child = Column(
@@ -109,25 +101,22 @@ class IDKitToast {
           Text(
             content,
             style: _style.textStyle,
-          ),
+          )
         ],
       );
     } else {
       _child = _child1;
     }
-    ToastView()
-        .toastLoading(context, _child, style: _style, markId: markId ?? "");
+    ToastView().toastLoading(context, _child, style: _style);
   }
 
   /// Custom loading of toast
   static loadingCustom(BuildContext context, Widget child,
       {ToastStyle style, String markId}) {
     var _style = ToastStyle.mappingStyle(style);
-    ToastView()
-        .toastLoading(context, child, style: _style, markId: markId ?? "");
+    ToastView().toastLoading(context, child, style: _style);
   }
 
   /// Delete toast
-  /// [markId]: Identification of toast
-  static dismiss({String markId}) => ToastView().dismiss(markId: markId);
+  static dismiss() => ToastView().dismiss();
 }

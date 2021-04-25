@@ -1,5 +1,7 @@
 name: idkit_toast
 description: A new Flutter package project.
+# Remove this line if you wish to publish to pub.dev
+# publish_to: "none"
 version: 0.0.2
 author:
 homepage:
@@ -11,6 +13,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  #idkit_activityindicator:
+  #git:
+  #url: https://github.com/zhoushuangjian001/idkit_activityindicator.git
 
 dev_dependencies:
   flutter_test:
