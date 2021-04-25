@@ -77,6 +77,9 @@ class HomePage extends StatelessWidget {
 
             IDKitToast.loadingCustom(
                 context, Image(image: AssetImage("load.gif")));
+            Future.delayed(Duration(seconds: 5), () {
+              IDKitToast.dismiss();
+            });
           },
         ),
       ),
